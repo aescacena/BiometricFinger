@@ -1,3 +1,4 @@
+package application.core;
 /*-----------------------------------------------------------------------------+
 
 			Filename			: Application.java
@@ -22,7 +23,7 @@
 
 +-----------------------------------------------------------------------------*/
 
-package application.core;
+
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
