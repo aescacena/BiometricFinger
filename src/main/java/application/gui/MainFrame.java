@@ -66,7 +66,7 @@ public class MainFrame extends JFrame
 	private PanelLegend legend;						// Legend
 	private JButton btBrowse;						// Buttons
 	private JButton btExtract;
-	private PictureChooser pictureChooser1, pictureChooser2;			// Picture chooser
+	private PictureChooser pictureChooser1;			// Picture chooser
 
 	private Collection<MainFrameListener> listeners;// Listeners
 
@@ -237,7 +237,6 @@ public class MainFrame extends JFrame
 
 		// Picture chooser
 		pictureChooser1 = new PictureChooser();
-		pictureChooser2 = new PictureChooser();
 
 		// Listeners
 		listeners = new ArrayList<MainFrameListener>();
@@ -454,13 +453,11 @@ public class MainFrame extends JFrame
 		// Open the picture chooser dialog
 		int choice1, choice2;
 		choice1 = pictureChooser1.showOpenDialog(this);
-		choice2 = pictureChooser2.showOpenDialog(this);
 
-		if(choice1 == JFileChooser.APPROVE_OPTION && choice2 == JFileChooser.APPROVE_OPTION) 
+		if(choice1 == JFileChooser.APPROVE_OPTION) 
 		{
 			File picFile1 = pictureChooser1.getSelectedFile();
-			File picFile2 = pictureChooser2.getSelectedFile();
-			fireNewPictureFile(picFile1.toString(), picFile2.toString());
+			fireNewPictureFile(picFile1.toString());
 			btExtract.setEnabled(true);
 		}
 
@@ -479,11 +476,11 @@ public class MainFrame extends JFrame
 	 * selected
 	 * @param filename name of the new file
 	 */
-	private void fireNewPictureFile(String filename1, String filename2)
+	private void fireNewPictureFile(String filename1)
 	{
 		for(MainFrameListener listener : listeners) 
 		{
-			listener.newPictureFiles(filename1, filename2);
+			listener.newPictureFiles(filename1);
 		}
 	}
 

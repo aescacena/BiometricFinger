@@ -90,25 +90,17 @@ public class FingerPrintEngine implements MainFrameListener
 		// Disable buttons
 		mainWindow.setEnableButtons(false);
 
-		// Create binaryPicture
-		//		fingerprint1 = new FingerPrint(filename1);
-		//		fingerprint2 = new FingerPrint(filename2);
-
-		BufferedImage buffer;
-
-
 		/************************************************************************************/
 		/************************Busqueda de la huella***************************************/
 		/***********************************************************************************/
 		long res = System.currentTimeMillis();
 		DAOUser userDAO = new DAOUser();
 		List<User> listUser;
+		
 		try {
 			listUser = userDAO.findAll(new User());
 
 			for (User user : listUser) {
-
-
 				// convert byte array back to BufferedImage
 				InputStream in = new ByteArrayInputStream(user.getImage());
 				ObjectInputStream is = new ObjectInputStream(in);
@@ -173,9 +165,7 @@ public class FingerPrintEngine implements MainFrameListener
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-
-
+		
 		/************************************************************************************/
 		/************************************************************************************/
 		/***********************************************************************************/
@@ -184,9 +174,9 @@ public class FingerPrintEngine implements MainFrameListener
 		/***********************************************************************************/
 		/*********************************** First image ***********************************/
 		/***********************************************************************************/
-
-		fingerprint1 = new FingerPrint(filename1);
-
+		
+		BufferedImage buffer;
+		
 		// Print original image
 		mainWindow.setIsWorking(0, true);
 		buffer = fingerprint1.getOriginalImage();
@@ -195,12 +185,6 @@ public class FingerPrintEngine implements MainFrameListener
 
 		// Print binary local result
 		mainWindow.setIsWorking(1, true);
-		fingerprint1.setColors(Color.black, Color.green);
-		fingerprint1.binarizeLocalMean();
-		fingerprint1.addBorders(1);
-		fingerprint1.removeNoise();
-		fingerprint1.removeNoise();
-		fingerprint1.removeNoise();
 		buffer = fingerprint1.toBufferedImage();
 		mainWindow.setIsWorking(1, false);
 		mainWindow.setImage(1, buffer);
@@ -248,8 +232,6 @@ public class FingerPrintEngine implements MainFrameListener
 		/*********************************** Second image ***********************************/
 		/***********************************************************************************/
 
-//		fingerprint2 = new FingerPrint(new java.io.File("").getAbsolutePath()+"\\data\\"+filename2);
-
 		// Print original image
 		mainWindow.setIsWorking(4, true);
 		buffer = fingerprint2.getOriginalImage();
@@ -258,12 +240,6 @@ public class FingerPrintEngine implements MainFrameListener
 
 		// Print binary local result
 		mainWindow.setIsWorking(5, true);
-//		fingerprint2.setColors(Color.black, Color.green);
-//		fingerprint2.binarizeLocalMean();
-//		fingerprint2.addBorders(1);
-//		fingerprint2.removeNoise();
-//		fingerprint2.removeNoise();
-//		fingerprint2.removeNoise();
 		buffer = fingerprint2.toBufferedImage();
 		mainWindow.setIsWorking(5, false);
 		mainWindow.setImage(5, buffer);
@@ -323,7 +299,7 @@ public class FingerPrintEngine implements MainFrameListener
 	//	}
 
 	@Override
-	public void newPictureFiles(String filename1, String filename2) {
+	public void newPictureFiles(String filename1) {
 		// TODO Auto-generated method stub
 		this.filename1 = filename1;
 		mainWindow.init();

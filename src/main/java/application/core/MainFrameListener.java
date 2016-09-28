@@ -30,7 +30,7 @@ public interface MainFrameListener
 	 * Executed when a new file is selected
 	 * @param filename filename (full path)
 	 */
-	public void newPictureFiles(String filename1, String filename2);
+	public void newPictureFiles(String filename1);
 	
 	/**
 	 * Called when extraction starts
