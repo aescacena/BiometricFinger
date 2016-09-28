@@ -52,7 +52,6 @@ public class Application
 		System.out.println("Maven + Hibernate + MySQL");
         DAOImpl DAO = new DAOImpl();
         User user = new User();
-//        user.setUserId(1);
         user.setUsername("ANTONIO");
 		try {
 			DAO.save(user);
