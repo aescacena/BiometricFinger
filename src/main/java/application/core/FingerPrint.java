@@ -29,15 +29,21 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.Math;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 
-public class FingerPrint
+public class FingerPrint implements Serializable
 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	//-------------------------------------------------------------- TYPES --//
 	// Pixel direction
 	public enum direction { NONE, HORIZONTAL, VERTICAL, POSITIVE, NEGATIVE};
@@ -108,6 +114,48 @@ public class FingerPrint
 			originalImage = null;
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Build a fingerprint from a filename
+	 * 
+	 * @param filename file from which a fingerprint is build
+	 */
+	public FingerPrint (BufferedImage image)
+	{
+		// Initialize colors
+		zeroColor = DEFAULT_ZERO_COLOR;
+		oneColor = DEFAULT_ONE_COLOR;
+
+		// Read file
+		originalImage = image;
+
+		// Create the binary picture
+		width = originalImage.getWidth();
+		height = originalImage.getHeight();
+
+		greyMap = new int [width][height];
+		binMap = new boolean [width][height];
+
+		// Generate greymap
+		int curColor;
+		for (int i = 0 ; i < width ; ++i)
+		{
+			for (int j = 0 ; j < height ; ++j)
+			{
+				// Split the integer color
+				curColor = originalImage.getRGB(i,j);
+				int R = (curColor >>16 ) & 0xFF;
+				int G = (curColor >> 8 ) & 0xFF;
+				int B = (curColor      ) & 0xFF;
+
+				int greyVal = (R + G + B) / 3;
+				greyMap[i][j] = greyVal;
+			}
+		}
+
+		// Get the grey mean
+		greymean = getGreylevelMean(greyMap, width, height);
 	}
 
 	//------------------------------------------------------------ METHODS --//	

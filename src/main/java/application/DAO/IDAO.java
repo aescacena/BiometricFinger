@@ -9,6 +9,6 @@ public interface IDAO<T, ID extends Serializable> {
 	void saveOrUpdate(T entity) throws Exception;
 	T get(ID id) throws Exception;
 	void delete(ID id) throws Exception;
-	List<T> findAll() throws Exception;
 	void save(T instance) throws Exception;
+	List<T> findAll(T entity) throws Exception;
 }

@@ -90,15 +90,18 @@ public class DAOImpl<T, ID extends Serializable> implements IDAO<T, ID> {
 	}
 
 	@Override
-	public List<T> findAll() throws Exception {
-		Session session = sessionFactory.getCurrentSession();
+	public List<T> findAll(T entity) throws Exception {
+		Session session = sessionFactory.openSession();
 		try {
-			Query query = session.createQuery("SELECT e FROM " + getEntityClass().getName() + " e");
+			Query query = session.createQuery("SELECT e FROM " + entity.getClass().getName() + " e");
 			List<T> entities = query.list();
 
 			return entities;
-		} catch (Exception e) {
-			throw e;
+		}catch(Exception e){
+			session.getTransaction().rollback();
+			throw new RuntimeException(e);
+		}finally{
+			session.close();
 		}
 	}
 
