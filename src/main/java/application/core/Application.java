@@ -102,14 +102,11 @@ public class Application
 //			BufferedImage originalImage = fingerprint2.getOriginalImage();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			try {
-//				ImageIO.write( originalImage, "jpg", baos );
 				ObjectOutputStream os = new ObjectOutputStream(baos);
-//				os.writeObject(fingerprint2);
 				os.writeObject(new File(new java.io.File("").getAbsolutePath()+"\\data\\"+fichero));
-//				baos.flush();
+				baos.flush();
 				os.close();
 				byte[] imageInByte = baos.toByteArray();
-//				baos.close();
 
 				User user = new User();
 				user.setUsername(fichero);

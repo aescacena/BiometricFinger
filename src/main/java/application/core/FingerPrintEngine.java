@@ -112,16 +112,10 @@ public class FingerPrintEngine implements MainFrameListener
 				// convert byte array back to BufferedImage
 				InputStream in = new ByteArrayInputStream(user.getImage());
 				ObjectInputStream is = new ObjectInputStream(in);
-//				FingerPrint fingerprint2 = (FingerPrint)is.readObject();
 				is.close();
-//				BufferedImage bImageFromConvert = ImageIO.read(in);
-
-//				ImageIO.write(bImageFromConvert, "jpg", new File(
-//						"c:/new-darksouls.jpg"));
 
 				fingerprint1 = new FingerPrint(filename1);
 				fingerprint2 = new FingerPrint((File)is.readObject());
-				//				fingerprint2 = new FingerPrint(bImageFromConvert);
 
 				CFingerPrint m_finger1 = new CFingerPrint(fingerprint1.getOriginalImage().getWidth(), fingerprint1.getOriginalImage().getHeight());
 				CFingerPrint m_finger2 = new CFingerPrint(fingerprint2.getOriginalImage().getWidth(), fingerprint2.getOriginalImage().getWidth());
@@ -134,7 +128,6 @@ public class FingerPrintEngine implements MainFrameListener
 					//picture1
 					//Set picture new
 					fingerprint1.setColors(Color.black, Color.green);
-					//					fingerprint1.binarizeMean();
 					fingerprint1.binarizeLocalMean();
 					fingerprint1.addBorders(1);
 					fingerprint1.removeNoise();
@@ -167,7 +160,7 @@ public class FingerPrintEngine implements MainFrameListener
 					int porcentaje = m_finger1.Match(finger1 , finger2,65,false);
 					if(porcentaje > 65){
 						res=(System.currentTimeMillis()-res)/1000;
-						JOptionPane.showMessageDialog (null, "Time: "+Long.toString(res)+" - Accuracy: "+porcentaje +"Nombre: "+user.getUsername(),"Time to find",JOptionPane.PLAIN_MESSAGE);
+						JOptionPane.showMessageDialog (null, "Time: "+Long.toString(res)+" - Accuracy: "+porcentaje +" - Nombre: "+user.getUsername(),"Time to find",JOptionPane.PLAIN_MESSAGE);
 						break;
 					}
 
@@ -255,7 +248,7 @@ public class FingerPrintEngine implements MainFrameListener
 		/*********************************** Second image ***********************************/
 		/***********************************************************************************/
 
-		fingerprint2 = new FingerPrint(new java.io.File("").getAbsolutePath()+"\\data\\"+filename2);
+//		fingerprint2 = new FingerPrint(new java.io.File("").getAbsolutePath()+"\\data\\"+filename2);
 
 		// Print original image
 		mainWindow.setIsWorking(4, true);
@@ -265,12 +258,12 @@ public class FingerPrintEngine implements MainFrameListener
 
 		// Print binary local result
 		mainWindow.setIsWorking(5, true);
-		fingerprint2.setColors(Color.black, Color.green);
-		fingerprint2.binarizeLocalMean();
-		fingerprint2.addBorders(1);
-		fingerprint2.removeNoise();
-		fingerprint2.removeNoise();
-		fingerprint2.removeNoise();
+//		fingerprint2.setColors(Color.black, Color.green);
+//		fingerprint2.binarizeLocalMean();
+//		fingerprint2.addBorders(1);
+//		fingerprint2.removeNoise();
+//		fingerprint2.removeNoise();
+//		fingerprint2.removeNoise();
 		buffer = fingerprint2.toBufferedImage();
 		mainWindow.setIsWorking(5, false);
 		mainWindow.setImage(5, buffer);

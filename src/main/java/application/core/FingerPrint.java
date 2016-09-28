@@ -109,9 +109,9 @@ public class FingerPrint{
 		}
 	}
 	/**
-	 * Build a fingerprint from a filename
+	 * Build a fingerprint from a file
 	 * 
-	 * @param filename file from which a fingerprint is build
+	 * @param file from which a fingerprint is build
 	 */
 	public FingerPrint (File file){
 		// Initialize colors
@@ -158,48 +158,6 @@ public class FingerPrint{
 		}
 	}
 	
-	/**
-	 * Build a fingerprint from a filename
-	 * 
-	 * @param filename file from which a fingerprint is build
-	 */
-	public FingerPrint (BufferedImage image)
-	{
-		// Initialize colors
-		zeroColor = DEFAULT_ZERO_COLOR;
-		oneColor = DEFAULT_ONE_COLOR;
-
-		// Read file
-		originalImage = image;
-
-		// Create the binary picture
-		width = originalImage.getWidth();
-		height = originalImage.getHeight();
-
-		greyMap = new int [width][height];
-		binMap = new boolean [width][height];
-
-		// Generate greymap
-		int curColor;
-		for (int i = 0 ; i < width ; ++i)
-		{
-			for (int j = 0 ; j < height ; ++j)
-			{
-				// Split the integer color
-				curColor = originalImage.getRGB(i,j);
-				int R = (curColor >>16 ) & 0xFF;
-				int G = (curColor >> 8 ) & 0xFF;
-				int B = (curColor      ) & 0xFF;
-
-				int greyVal = (R + G + B) / 3;
-				greyMap[i][j] = greyVal;
-			}
-		}
-
-		// Get the grey mean
-		greymean = getGreylevelMean(greyMap, width, height);
-	}
-
 	//------------------------------------------------------------ METHODS --//	
 	/**
 	 * Get the width
