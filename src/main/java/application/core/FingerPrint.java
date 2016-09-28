@@ -36,14 +36,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 
-public class FingerPrint implements Serializable
-
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class FingerPrint{
+	
 	//-------------------------------------------------------------- TYPES --//
 	// Pixel direction
 	public enum direction { NONE, HORIZONTAL, VERTICAL, POSITIVE, NEGATIVE};
@@ -70,8 +64,7 @@ public class FingerPrint implements Serializable
 	 * 
 	 * @param filename file from which a fingerprint is build
 	 */
-	public FingerPrint (String filename)
-	{
+	public FingerPrint (String filename){
 		// Initialize colors
 		zeroColor = DEFAULT_ZERO_COLOR;
 		oneColor = DEFAULT_ONE_COLOR;
@@ -81,6 +74,55 @@ public class FingerPrint implements Serializable
 		{
 			// Read file
 			originalImage = ImageIO.read(new File(filename));
+
+			// Create the binary picture
+			width = originalImage.getWidth();
+			height = originalImage.getHeight();
+
+			greyMap = new int [width][height];
+			binMap = new boolean [width][height];
+
+			// Generate greymap
+			int curColor;
+			for (int i = 0 ; i < width ; ++i)
+			{
+				for (int j = 0 ; j < height ; ++j)
+				{
+					// Split the integer color
+					curColor = originalImage.getRGB(i,j);
+					int R = (curColor >>16 ) & 0xFF;
+					int G = (curColor >> 8 ) & 0xFF;
+					int B = (curColor      ) & 0xFF;
+
+					int greyVal = (R + G + B) / 3;
+					greyMap[i][j] = greyVal;
+				}
+			}
+
+			// Get the grey mean
+			greymean = getGreylevelMean(greyMap, width, height);
+		}
+		catch (IOException e) 
+		{
+			originalImage = null;
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * Build a fingerprint from a filename
+	 * 
+	 * @param filename file from which a fingerprint is build
+	 */
+	public FingerPrint (File file){
+		// Initialize colors
+		zeroColor = DEFAULT_ZERO_COLOR;
+		oneColor = DEFAULT_ONE_COLOR;
+
+		// Open and create the buffered image
+		try 
+		{
+			// Read file
+			originalImage = ImageIO.read(file);
 
 			// Create the binary picture
 			width = originalImage.getWidth();
@@ -668,8 +710,7 @@ public class FingerPrint implements Serializable
 	{
 		// Private class to store partial results
 		// of a window
-		class coreInfos
-		{
+		class coreInfos implements Serializable{
 			private int nbVer, nbHor, nbPos, nbNeg;
 
 			/**

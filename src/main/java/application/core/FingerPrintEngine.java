@@ -112,7 +112,7 @@ public class FingerPrintEngine implements MainFrameListener
 				// convert byte array back to BufferedImage
 				InputStream in = new ByteArrayInputStream(user.getImage());
 				ObjectInputStream is = new ObjectInputStream(in);
-				FingerPrint fingerprint2 = (FingerPrint)is.readObject();
+//				FingerPrint fingerprint2 = (FingerPrint)is.readObject();
 				is.close();
 //				BufferedImage bImageFromConvert = ImageIO.read(in);
 
@@ -120,7 +120,7 @@ public class FingerPrintEngine implements MainFrameListener
 //						"c:/new-darksouls.jpg"));
 
 				fingerprint1 = new FingerPrint(filename1);
-//				fingerprint2 = new FingerPrint(bImageFromConvert);
+				fingerprint2 = new FingerPrint((File)is.readObject());
 				//				fingerprint2 = new FingerPrint(bImageFromConvert);
 
 				CFingerPrint m_finger1 = new CFingerPrint(fingerprint1.getOriginalImage().getWidth(), fingerprint1.getOriginalImage().getHeight());

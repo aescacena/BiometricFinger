@@ -25,16 +25,14 @@ package application.core;
 
 
 
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.ObjectOutputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-import application.DAO.DAOImpl;
+import application.DAO.DAOUser;
 import application.DAO.models.User;
 import application.gui.MainFrame;
 
@@ -56,7 +54,7 @@ public class Application
 	 */
 	public static void main(String[] args){
 
-//		saveImagesInBD();
+		saveImagesInBD();
 		
 		// Set style
 		//		setStyle();
@@ -93,7 +91,7 @@ public class Application
 	
 	private static void saveImagesInBD(){
 		System.out.println("Maven + Hibernate + MySQL");
-		DAOImpl DAO = new DAOImpl();
+		DAOUser userDAO = new DAOUser();
 
 		File dir = new File(new java.io.File("").getAbsolutePath()+"\\data");
 		String[] ficheros = dir.list();
@@ -101,23 +99,24 @@ public class Application
 		for (String fichero : ficheros) {
 			FingerPrint fingerprint2 = new FingerPrint(new java.io.File("").getAbsolutePath()+"\\data\\"+fichero);
 
-			BufferedImage originalImage = fingerprint2.getOriginalImage();
+//			BufferedImage originalImage = fingerprint2.getOriginalImage();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			try {
 //				ImageIO.write( originalImage, "jpg", baos );
 				ObjectOutputStream os = new ObjectOutputStream(baos);
-				os.writeObject(fingerprint2);
+//				os.writeObject(fingerprint2);
+				os.writeObject(new File(new java.io.File("").getAbsolutePath()+"\\data\\"+fichero));
 //				baos.flush();
 				os.close();
 				byte[] imageInByte = baos.toByteArray();
-				baos.close();
+//				baos.close();
 
 				User user = new User();
 				user.setUsername(fichero);
 				user.setImage(imageInByte);
 				if(imageInByte.length >= 100000)
 					System.out.println("------------------------------------------------> "+imageInByte.length);
-				DAO.save(user);
+				userDAO.save(user);
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
